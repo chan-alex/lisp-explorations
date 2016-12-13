@@ -78,3 +78,59 @@
 ;;; (1 7 8 NIL)
 ;;; CL-USER> (keyword-args2 :c 5  :a 1)
 ;;; (1 7 5 T)
+
+
+;;; Note:  mixing &optional, &rest, &optional or &rest together can lead to surprising
+;;; behavior. Take care when doing so.
+
+
+
+;;; functions returns the last evaluated value.
+(defun return1 (x)
+  (if (< x 10)
+      0
+      1))
+
+;;; It is possible to use RETURN-FROM to explicit return.
+;;; Actually RETURN-FROM returns from BLOCKS and since DEFUN
+;;; wraps functions body in a BLOCK, this works too.
+(defun return2 (x)
+  (if (< x 10)
+      (return-from return2 0)
+      (return-from return2 1)))
+
+
+;;; functions are 1st class objects.
+(defun times2 (x)
+  (* x 2))
+
+#'times2
+;;; returns #<Compiled-function TIMES2 #xC835296>
+
+;;; (times2 20) is same as
+(funcall #'times2 20)
+
+;;; FUNCALL is used when you know the exact number of args to call the function with.
+;;; Use APPLY when the number of arguments is only know at run time.
+;;; APPLY only expect the args to be in a list.
+(apply #'times2 '(20))
+
+
+;;; Anonymous functions can be created with lambda.
+(lambda (x) (* 2 x))
+
+;;; CL-USER> (lambda (x) (* 2 x))
+;;; #<Anonymous Function #xC8B3B76>
+
+;;; They can be called with FUNCALL or APPLY
+;;; CL-USER> (funcall #'(lambda (x) (* 2 x)) 20)
+;;; 40
+
+;;; CL-USER> (apply #'(lambda (x) (* 2 x)) '(20))
+;;; 40
+
+;;; or called directly.
+;;; CL-USER> ((lambda (x) (* 2 x)) 20)
+;;; 40
+
+
