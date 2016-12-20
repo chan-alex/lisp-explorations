@@ -17,8 +17,13 @@
 (if (< x  10)
     (progn
       (format t "X is less then 10 ~%")
-      (format t "Do something here. ~%"))
-    (progn
-      (format t "X is more then 10 ~%")
       (format t "Do something here. ~%")))
 
+
+
+;;; Having to use PROGN is bit verbose.
+;;; Another way to do the same is to use WHEN
+(when (< x 10)
+      (format t "X is less then 10 ~%")
+      (format t "Do something here. ~%"))
+  
