@@ -26,4 +26,22 @@
 (when (< x 10)
       (format t "X is less then 10 ~%")
       (format t "Do something here. ~%"))
-  
+
+;;; WHEN is really a macro that translates to the previous IF
+
+;;; CL-USER> (macroexpand-1 `(when (< x 10)
+;;;      (format t "X is less then 10 ~%")
+;;;      (format t "Do something here. ~%")))
+;;; (IF (< X 10) (PROGN (FORMAT T "X is less then 10 ~%") (FORMAT T "Do something here. ~%")))
+;;; T
+;;; CL-USER>
+
+
+;;; One way to write WHEN is this way:
+(defmacro my-when (condition &rest body)
+  `(if ,condition (progn ,@body)))
+
+
+(my-when (< x 10)
+      (format t "X is less then 10 ~%")
+      (format t "Do something here. ~%"))
