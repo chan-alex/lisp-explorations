@@ -1,6 +1,7 @@
 
 
 
+
 ;;; COND
 
 ;;; Multi branch conditional can look ugly.
@@ -129,3 +130,16 @@
 	 (return))
      (format t "Sleeping... ~%")
      (sleep 10)))
+
+
+
+;;; The extended version has a lot of keywprds.
+;;; It's kind of like Python comphensions.
+
+(print (loop for x from -10 to 10 collecting x))
+
+(print (loop for x from 1 to 10 summing x))
+
+(print (loop for x across "wedfevgrfwevgewfeg grrge" counting (find x "g")))
+
+
