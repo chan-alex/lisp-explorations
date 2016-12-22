@@ -79,3 +79,53 @@
 (dotimes (i 5)
   (dolist (y `(1 2 3 4 5))
     (print y)))
+
+
+
+
+;;; DO is a more generalized looping mechanism compared to DOTIMES and DOLIST
+;;; It's a lot like the standard "for" loops in C and Java.
+
+(do (( i 0 (+ 1 i)))
+    ((> i 5) (print i)))
+
+;;; is same as (dotimes (i 5) (print i))
+;;; DOTIMES is preferred as it allow compiler to optimize the compilation.
+
+;;; More complex usage of DO is possible.
+(do ((x 0 (+ 1 x))
+     (y 0 (+ 2 y))
+     (z 0 y))
+    ((> z 5)
+     (format t "~d ~d ~d ~%" x y z)))
+
+
+
+;;; You can do an infinite loop with DO
+(let* ((current_time (get-universal-time))
+       (future_time (+ current_time 60)))
+  (print future_time)
+
+  (do ()
+      ((> (get-universal-time) future_time))
+    (format t "Sleeping... ~%")
+    (sleep 10))
+  
+  (format t "out of the loop ~%"))
+     
+
+
+;;; LOOP is the most(?) generalized loop mechanism in lisp.
+;;; Come in 2 forms: Simple and Extended.
+;;; The simple version is similar to the DO loop e.g.
+
+(let* ((current_time (get-universal-time))
+       (future_time (+ current_time 60)))
+  (print future_time)
+
+  (loop
+       (when (> (get-universal-time) future_time)
+	 (format t "out of the loop ~%")
+	 (return))
+     (format t "Sleeping... ~%")
+     (sleep 10)))
