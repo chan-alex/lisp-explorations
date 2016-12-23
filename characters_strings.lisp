@@ -12,6 +12,7 @@
 
 
 
+
 ;;; CHAR= and CHAR-EQUAL is for comparing character equality
 (print (char= #\A  #\A))
 (print (char-equal #\A  #\A))
