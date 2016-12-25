@@ -3,12 +3,12 @@
 
 ;;; Vectors
 ;;; comes in 2 types: fixed sized and resizable.
-;;; all members in a vector need to be the same type.
+
 
 ;;; fixed size vectors can be push this way 
 (vector )
 (vector 1 2 3 4 5)
-;;; (vector 1 'a')   <--- tis won't compile.
+(vector 1 2 3 4 5 'a #\b)   ; don't have to be same type.
 
 
 ;;; The literal notation for vectors is #(...)
@@ -39,6 +39,20 @@
 ;;; Creating a resizable vector with room for 5 elements.
 (defparameter *resizable-vector1*  (make-array 5 :fill-pointer 0))
 
-;;; Use VECTOR-PUSH to add elements
+;;; Use VECTOR-PUSH to add elements. Will increment the fill-pointer and returns the value
+;;; of the fill-pointer where the new element was added.
+(vector-push 1 *resizable-vector1*)   ; this returns 0
+(vector-push 2 *resizable-vector1*)   ; this returns 1
 
 
+;;; Use VECTOR-POP to remove the most recently added memeber
+(vector-pop  *resizable-vector1*)   ; this returns 2
+(vector-pop  *resizable-vector1*)   ; this returns 1
+
+;;; *resizable-vector1*  maybe resizable but can only hold up to 5 elements.
+(vector-push 1 *resizable-vector1*)   ; this returns 0
+(vector-push 2 *resizable-vector1*)   ; this returns 1
+(vector-push 3 *resizable-vector1*)   ; this returns 0
+(vector-push 4 *resizable-vector1*)   ; this returns 1
+(vector-push 5 *resizable-vector1*)   ; this returns 0
+(vector-push 6 *resizable-vector1*)   ; this returns NIL and vector remains at 5. limit hit.
