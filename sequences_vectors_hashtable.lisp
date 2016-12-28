@@ -248,6 +248,36 @@
 
 ;;; Sequence predicate
 
-;;; EVERY
-;;; (print
-;;; (every #'
+;;; EVERY - return T if predicate is true for every element of a sequence.
+(print
+ (every #'oddp  '(1 2 3 4 5 6)))  ; returns NIL
+
+(print
+ (every #'oddp  '(3 3 3 3 3 3)))  ; returns T
+
+
+;;; SOME - return T if predicate is true for some of the elements of a sequence.
+(print
+ (some #'oddp  '(1 2 3 4 5 6)))  ; return T
+
+(print
+ (every #'oddp  '(4 4 4 4 4 4)))  ; returns NIL
+
+
+
+;;; NOTANY - return T only if all elements fails the predicate.
+(print
+ (notany #'oddp  '(1 2 3 4 5 6)))  ; return NUL
+
+(print
+ (notany  #'oddp  '(4 4 4 4 4 4)))  ; return T
+
+
+
+;;; NOTEVERY - return NUL if all elemetn satisfy th predicate.
+(print
+ (notevery #'oddp  '(1 2 3 4 5 6)))  ; return NUL
+
+(print
+ (notevery  #'oddp  '(4 4 4 4 4 4)))  ; return s
+
