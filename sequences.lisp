@@ -281,3 +281,15 @@
 (print
  (notevery  #'oddp  '(4 4 4 4 4 4)))  ; return s
 
+
+
+;;; Sequence mapping
+;;; MAP takes a N-argument fuction to apply to N sequences.
+;;; and forms a new sequence. Need to be told what type of seq to create.
+(print
+ (map 'list  #'(lambda (x) (incf x))  #( 1 2 3 )))
+
+(print
+ (map 'vector #'(lambda (x y) (+ x y))
+     #(1 2 3 4)  #(4 3 2 1 6 7 7 8)))
+
