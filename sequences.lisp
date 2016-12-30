@@ -293,3 +293,15 @@
  (map 'vector #'(lambda (x y) (+ x y))
      #(1 2 3 4)  #(4 3 2 1 6 7 7 8)))
 
+
+
+;;; MAP-INTO
+;;; Similar to MAP except it places results into the sequence passed as the 1st argument.
+(let ((r '(1 2 3 4 5)))
+  (print
+   (map-into r #'(lambda (x) (+ 1 x)) r)))
+
+
+(let ((r '(1 2 3 4 5)))
+  (map-into r #'+ r '(4 3 2 1))
+  (print r))
