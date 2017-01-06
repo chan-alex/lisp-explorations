@@ -73,14 +73,35 @@
   (print *list3*)
   NIL)
 
-(print_list)
-(setf (car *list1*) 0)
-(print_list)
+(print_lists)
+(setf (car *list2*) 0)
+(print_lists)   ; this will show not only *list2* has changed, so has *list3*.
 
 
+;; One could say that APPEND is "destructively" or has side-effects.
+;; And there can be described as "recycling" type of effects. APPEND reuses existing
+;; cons cells tp do it's thing.
 
 
+(defparameter *list4* '(1 2 3 4 5))
 
 
+;; REVERSE is a functional. Returns a new list via CONS.
+(print
+ (reverse *list4*))
+
+(print *list4*)    ; *list4* stays the same.
+
+;; NREVERSE is a destructive version of REVERSE. It will modify *list4*
+;; In general, function with recycling type of side effects starts with N.
+(print
+ (nreverse *list4*))
+
+(print *list4*)  ;; *list4* is now (1).
 
 
+;; N* functions generally are safe to use only if you are sure the arguments are not going
+;; to be used after the functions returns. The side effects are not specified tighty enough
+;; to be replied on.
+
+;; There are a few N* functions who behvaior can be replied on.
