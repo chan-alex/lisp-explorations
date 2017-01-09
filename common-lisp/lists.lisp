@@ -105,3 +105,24 @@
 ;; to be replied on.
 
 ;; There are a few N* functions who behvaior can be replied on.
+
+
+
+;; Although destructive functions can be unsafe to use, there is an safe and idiomtic way to
+;; to use them: building up a list via CONS-ing and then call the destructive function on this
+;; newly created list.
+
+
+(defun nreverse-random(n range)
+  (let ((result NIL))
+    (dotimes (i n)
+      (push (random range) result))
+    (print result)
+    (nreverse result)))
+
+
+(defun upto (max)
+  (let ((result nil))
+    (dotimes (i max)
+      (push i result))
+    (nreverse result)))
