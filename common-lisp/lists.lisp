@@ -126,3 +126,35 @@
     (dotimes (i max)
       (push i result))
     (nreverse result)))
+
+
+;;; list manuplution functions
+
+
+;; This is the basic map. note: MAP is non-destructive.
+(print
+ (map 'list  #'(lambda (x) (+ 1 x)) '(1 2 3 4 5)))
+
+;; MAPCAR is like MAP except it always returns a list.
+;; Takes an element from each argument and apply the function to it.
+;; Result are collected into a new list.
+(print
+ (mapcar #'(lambda (x) (+ 1 x)) '(1 2 3 4 5)))
+
+(print
+ (mapcar #'(lambda (x y) (+ x y)) '(1 2 3 4 5) '(5 4 3 2 1)))
+
+
+
+;; MAPLIST is like MAPCAR except the actual conscell are passed to the functions.
+;; And so the function will have access to the CDR of the cons cell.
+(print
+ (maplist #'(lambda (x) (+ 1 (car x))) '(1 2 3 4 5)))  ; note the (car x) part.
+
+
+(setf list1 '(1 2 3 4 5))
+
+(print
+ (mapcan #'(lambda (x) (+ 1 x)) list1))
+
+(print list1)
