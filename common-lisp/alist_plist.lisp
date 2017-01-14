@@ -30,3 +30,39 @@
 (push (acons "six" 6 *alist2*) *alist2*)
 
 
+;; another way to create an alist is with PAIRLIS
+(setf *alist2* (pairlis '(1 2 3) '("one" "two" "three")))
+
+
+
+
+;; Property lists (plists) are just lists with alternate keys and values
+;; plist only support GETF which uses only EQ to test for keys.
+;; This makes number and character unsuitable as keys in plists as EQ is undefined 
+;; for these types. plists usually uses symbols as keys:
+
+(defparameter *plist1* '(:1 "one" :2 "two" :3 "three"))
+
+(print
+ (getf *plist1* :1))
+
+;; Can use SETF on plists too
+(setf (getf *plist1* :1) "ONE")
+
+
+;; Use REMF to remove keys. REMF also always uses EQ for finding keys.
+(remf *plist1* :1)
+(print *plist1*)
+
+(setf (getf *plist1* :1) "one")
+
+
+;; GET-PROPERTIES can be used to extract multiple values from plistsa
+;; It takes a plist and a list of keys to search for and returns, as multiple values,
+;; the first key found, the corresponding value, and the head of the list starting
+;; with the found key..
+(multiple-value-bind (key value tail) (get-properties *plist1* '(:a :2 :3))
+  (format t "Key = ~a ~%" key)
+  (format t "value = ~a ~%" value)
+  (format t "tail = ~a ~%" tail))
+  
