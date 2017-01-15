@@ -51,7 +51,6 @@
 
 
 ;; Same as read_file3, uses LOOP instead.
-
 (defun read_file4 (path)
   (let ((in (open path :if-does-not-exist nil)))
     (when in
