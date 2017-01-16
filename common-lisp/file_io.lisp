@@ -57,3 +57,26 @@
       (loop for line = (read-line in nil)
 	 while line do (format t "~a~%" line))
       (close in))))
+
+
+
+
+;; To read binary data, use OPEN but pass in :element-type with argument of '(unsigned-byte 8)
+;; to create a binary stream. THen use READ-BYTE to read. it returns 0 to 255 each time it is called.
+; Modifying read_file3 to read in in binary mode.
+(defun read_bfile1 (path)
+  (let ((in (open path :element-type '(unsigned-byte 8) :if-does-not-exist nil)))
+    (when in
+	(loop 
+	   (let ((byte (read-byte in nil)))  ; optional argument set to NIL
+	     (if byte
+		 (format t "~a => ~a~%" byte (code-char byte))  ; pretty binary and ascii
+		 (return))))
+	(close in))))
+  
+
+
+
+;; READ-SEQUENCE reads file in chunks. It is passed a sequence, usually a vector.
+;; Then it will try to fill the vector with data. it returns the length of the sequence
+;; or the index, if it was not able to fill it.
