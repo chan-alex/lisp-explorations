@@ -84,8 +84,9 @@
 (defun read_file5 (path)
   (let ((in (open path)) (buf (make-array 20)))
     (when in
-	 (read-sequence buf in)
-	 (print buf))
+      (read-sequence buf in)   ; this first READ-SEQUENCE will advance the file position.
+      (read-sequence buf in)
+      (print buf))
     (close in)))
 
 
