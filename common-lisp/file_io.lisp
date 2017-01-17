@@ -78,7 +78,7 @@
 
 
 ;; READ-SEQUENCE reads file in chunks. It is passed a sequence, usually a vector.
-;; Then it will try to fill the vector with data. it returns the length of the sequence
+;; Then it will try to fill (destructively) the vector with data. it returns the length of the seqence
 ;; or the index, if it was not able to fill it.
 
 (defun read_file5 (path)
@@ -88,5 +88,24 @@
       (read-sequence buf in)
       (print buf))
     (close in)))
+
+
+;; this function reads a file in chunks.
+;; the last chunk will probably contain parts of previous chunk
+;; Not adding additional code to account for that to keep it simple.
+(defun read_file_in_chunks (path chunksize)
+  (let ((in (open path)) (buf (make-array chunksize)))
+    (when in
+      (loop 
+	 (let ((pos (read-sequence buf in)))
+	   (format t "~a~%" buf)   ; the last chunk will probably contain parts of previous chunk
+	   (if (< pos chunksize)
+	       (return)))))
+    (close in)))
+
+
+
+
+
 
 
