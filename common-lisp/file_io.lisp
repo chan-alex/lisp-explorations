@@ -80,3 +80,12 @@
 ;; READ-SEQUENCE reads file in chunks. It is passed a sequence, usually a vector.
 ;; Then it will try to fill the vector with data. it returns the length of the sequence
 ;; or the index, if it was not able to fill it.
+
+(defun read_file5 (path)
+  (let ((in (open path)) (buf (make-array 20)))
+    (when in
+	 (read-sequence buf in)
+	 (print buf))
+    (close in)))
+
+
