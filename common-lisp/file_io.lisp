@@ -60,7 +60,6 @@
 
 
 
-
 ;; To read binary data, use OPEN but pass in :element-type with argument of '(unsigned-byte 8)
 ;; to create a binary stream. THen use READ-BYTE to read. it returns 0 to 255 each time it is called.
 ; Modifying read_file3 to read in in binary mode.
@@ -106,6 +105,29 @@
 
 
 
+;; Writing to files
+
+;; To open file for writing, use OPEN with any specify :direction with keyword :output.
+;; OPEN will signal an error the file  exists. To override, use :if-exists.
+;; Set it to :superede to replace the file,
+;; Set to :apppend to append to the file.
+
+;; Once open, you can write the stream with WRITE_CHAR, WRITE-LINE, WRITE-STRING.
+;; TERPRI (short for terminiate print) - unconditionally prints a newline character.
+;; FRESH-LINE prints a newline character unless stream is at the beginning of a new line.
+
+;; Note:  use one of the read_file* function above to test.
+(defun write_file1 (filename)
+  (let ((in (open filename :direction :output :if-exists :supersede)))
+    (write-char #\X in)
+    (fresh-line in)
+    (write-line "this is a line" in)
+    (close in)))
+
+
+;; PRINT prints lisp data as S-expression follow by an end-of-line
+;; PRIN1 just prints the S-expression
+;; PPRINT is like PRINT and PRIN1 except it prints in a new looking way.
 
 
 
