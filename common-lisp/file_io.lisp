@@ -58,6 +58,19 @@
 	 while line do (format t "~a~%" line))
       (close in))))
 
+;; recursive style experiment
+(defun read_func (line stream)
+  (when line
+	 (format t "~a~%" line)
+	 (read_func (read-line stream nil) stream)))
+
+(defun read_file4-r (path)
+  (let ((in (open path :if-does-not-exist nil)))
+    (when in
+      (read_func (read-line in nil) in))))
+
+
+
 
 
 ;; To read binary data, use OPEN but pass in :element-type with argument of '(unsigned-byte 8)
