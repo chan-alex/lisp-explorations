@@ -118,16 +118,39 @@
 
 ;; Note:  use one of the read_file* function above to test.
 (defun write_file1 (filename)
-  (let ((in (open filename :direction :output :if-exists :supersede)))
-    (write-char #\X in)
-    (fresh-line in)
-    (write-line "this is a line" in)
-    (close in)))
+  (let ((out (open filename :direction :output :if-exists :supersede)))
+    (write-char #\X out)
+    (fresh-line out)
+    (write-line "this is a line" out)
+    (close out)))
 
 
 ;; PRINT prints lisp data as S-expression follow by an end-of-line
 ;; PRIN1 just prints the S-expression
 ;; PPRINT is like PRINT and PRIN1 except it prints in a new looking way.
+;; These functions are controlled by the *PRINT-READABLY* variable.
+
+;; PRINC prints S-experession but in a way suitable for human consumption.
+(defun write_file2 (filename)
+  (let ((out (open filename :direction :output :if-exists :supersede))
+	(sexpr1 '(list 'a' 'b' '(1 2 3) :keyword1)))
+
+    (print sexpr1 out)
+    (fresh-line out)	
+    (prin1 sexpr1 out)
+    (fresh-line out)	
+    (pprint sexpr1 out)
+    (fresh-line out)	
+    (princ sexpr1 out)        
+    (close out)))
 
 
+;; Testing write_file2
+(write_file2 "/tmp/test1")
+
+(with-open-file (in "/tmp/test1")
+  (let ((sexpr1 (read in)))   ; READ read and evaluate the S-expressions.
+    (print
+     (append sexpr1 '(4)))))) ; this shows sexpr1 is a valid S-expression.
+  
 
