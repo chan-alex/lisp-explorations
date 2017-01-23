@@ -64,11 +64,62 @@
 ;; define this.
 
 (defclass testclass1()
-  ((message :accessor test1class1-msg
+  ((message :accessor testclass1-msg
 	    :allocation :class
 	    :initform "")))
 
 (let ((tc1 (make-instance 'testclass1))
       (tc2 (make-instance 'testclass1)))
-      
-  (print tc1))
+
+  (setf (testclass1-msg tc1) "This is a message from tc1")
+  (print (testclass1-msg tc2))
+  
+  (setf (testclass1-msg tc2) "This is a message from tc2")
+  (print (testclass1-msg tc1)))  
+
+
+;; multiple Inheritance
+;; The second argument of DEFCLASS is a list of superclasses.
+;; A class inherits the union of the slots of its superclasses.
+
+(defclass Point()
+  ((x :accessor Point-x
+      :initarg :x
+      :initform 0)
+   (y :accessor Point-y
+      :initarg :y
+      :initform 0)))
+
+(defclass RGB()
+  ((red :accessor RGB-r
+	:initarg :r
+	:initform 0)
+   (green :accessor RGB-g
+	:initarg :g
+	:initform 0)
+   (blue :accessor RGB-b
+	:initarg :b
+	:initform 0)))
+
+(defclass Circle()
+  ((radius :accessor Circle-radius
+	   :initarg :radius )))
+	   :initform 0)))
+
+
+(defclass screen-Circle(Point RGB circle)
+  ((radius :initform 10))) ;; Here it is possible to specify different default valuees for slots.
+
+
+(let ((cc (make-instance 'screen-Circle
+			 :x 10 :y 10
+			 :r 255 :g 0 :b 0
+			 )))
+  (format t "Co-cordinates: x=~a   y=~a  ~%" (Point-x cc) (Point-y cc))
+  (format t "RGB value: red=~a   green=~a   blue=~a  ~%" (RGB-r cc) (RGB-g cc) (RGB-b cc))
+  (format t "Radius: radius=~a    ~%" (Circle-radius cc)))
+
+
+;; As with other object oriented languages that support multiple inheritance,
+;; the diamond problem allows existing in CLOS. There are 2 rules to resolve this.
+;; In CLOS, this is resolved with preceence list 
