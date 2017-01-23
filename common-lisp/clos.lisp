@@ -122,4 +122,7 @@
 
 ;; As with other object oriented languages that support multiple inheritance,
 ;; the diamond problem allows existing in CLOS. There are 2 rules to resolve this.
-;; In CLOS, this is resolved with preceence list 
+;; the first is resolved with preceence list - class ordered from itself and superclasses from most
+;; specific to least specific
+;; The 2nd rule sorts unrelated classes are sorts in the order they are listed in DEFCLASS direct
+;; superclass list.
