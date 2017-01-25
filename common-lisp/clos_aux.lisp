@@ -34,3 +34,20 @@
 
 
 ;; TODO to add around axx methods.
+;; If there is an "around" method, it gets called 1st and the rest of the method will
+;; only run if the around-method decides to let them.
+
+;; An around primary method can use CALL-NEXT-METHOD to invoke the next method.
+;; NEXT-METHOD-P can be invoke to test whether there is a next method to call.
+
+
+(defclass appropriate_accent (standard_english)
+  ((singlish_ok  :accessor singlish_ok
+		 :initarg  :singlish_ok
+		 :initform NIL)))
+		 
+
+(defmethod speak :around ((aa appropriate_accent) sentence)
+  (if (singlish_ok aa)
+      (speak (make-instance 'singlish_accent) sentence)
+      (call-next-method)))
