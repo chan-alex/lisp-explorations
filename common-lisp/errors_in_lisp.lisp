@@ -72,3 +72,6 @@
     (division-by-zero  () (format t "divide-by-zero error caught"))
     (arithmetic-error  () (format t "arithmetic-error caught"))
     (type-error  () (format t "type-error caught"))))
+
+
+
