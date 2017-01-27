@@ -75,3 +75,30 @@
 
 
 
+;; An alternate way (and more powerful)  to handle errors is with HANDLER-BIND
+;; The main difference HANDLER-CASE is that it does not unwind the stack.
+;; HANDLER-BIND expect handler functions that takes a single argument which is the condition.
+;; The handler function can do anything. if it returns normally, HANDLER-BIND will proceed
+;; to look for the next handler function to handle the error. 
+;; This is why the handler functions below all use RETURN-FROM to emluate the HANDLER-CASE
+;; behavior above. This performs a non-local exit.
+
+(defun div2(x y)
+  ;flet is for local function binding.
+  (flet ((handler-1 (condition)   
+	   (declare (ignore condition))
+	   (format t "divide-by-zero error caught")
+	   (return-from div2))
+	 (handler-2 (condition)
+	   (declare (ignore condition))	   
+	   (format t "arithmetic-error caught")
+	   (return-from div2))
+	 (handler-3 (condition)
+	   (declare (ignore condition))	   
+	   (format t "type-error caught")
+	   (return-from div2)))	   
+    (handler-bind ((division-by-zero #'handler-1)
+		   (arithmetic-error #'handler-2)
+		   (type-error #'handler-3))
+      (/ x y))))
+	 
