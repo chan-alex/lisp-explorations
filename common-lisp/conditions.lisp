@@ -17,4 +17,23 @@
 ;; MAKE-CONDITION initializes the slots of new conditions based on the :initargs it's passed.
 ;; THere is no further way to customize a condition.
 
+;; :report is for the report function. Must have argments for the condition and stream.
 
+(define-condition too-hot (error)
+  ((temperature :initarg :temp
+		:reader temp))
+  (:report (lambda (condition stream)
+	     (format stream  "Temperature now is ~A celsius. Too hot! " (temp condition)))))
+
+
+;; There's 2 way to signal a condition
+
+;; SIGNAL will not interrupt the flow of execution unless there's a HANDLE-CASE
+(signal (make-condition 'too-hot :temp 40))
+
+;; This will throw us into the debugger.
+;;   (error (make-condition 'too-hot :temp 40))
+
+
+
+  
