@@ -13,18 +13,30 @@
 
 
 
-(defgeneric add_contact(contactlist contact)
+(defgeneric add-contact(contactlist contact)
   (:documentation "Adds a contact to the list."))
 
-(defmethod add_contact((cl contactlist) contact)
+(defmethod add-contact((cl contactlist) contact)
   (push contact (contact-list cl)))
+
+
+(defgeneric search-contact(contactlist contact)
+  (:documentation "Search a contact in a contact list."))
+
+(defmethod search-contact((cl contactlist) search-fn )
+  (remove-if-not search-fn (contact-list cl)))
+
 
 
 
 (defparameter *contactlist* (make-instance 'contactlist))
 
-(add_contact *contactlist* (make-instance 'contact :name "jim"))
-(add_contact *contactlist* (make-instance 'contact :name "john"))
+(add-contact *contactlist* (make-instance 'contact :name "jim"))
+(add-contact *contactlist* (make-instance 'contact :name "john"))
 
 (print
  (contact-list *contactlist*))
+
+(print
+ (contact-name (car
+  (search-contact *contactlist* #'(lambda(c) (string= "jim" (contact-name c)))))))
